@@ -11,12 +11,15 @@ export default class SortNumbers extends Component{
         super(props);
         this.state = {
             numeros: [],
-            jogados: [1,2,3,4,5,6]
+            jogos: [ 
+                [1,2,3,4,5,6], 
+                [7,8,9,10,11,12],
+                [7,18,24,32,44,56] ]
         }
     }
     componentWillMount(){
         const _self = this;
-
+        
         var maxInterval = 6;
 
         function getRandomArbitrary(min, max) {
@@ -44,11 +47,15 @@ export default class SortNumbers extends Component{
         return (
             <div className="megasena">
                 <p>Meus jogos</p>
-                <ul>
-                    {_self.state.jogados.sort((a, b) => a > b).map(i => {
-                        return (<li key={i} className={`${ _verificarAcerto(i, _self.state.numeros) }`}>{i}</li>)
-                    })}
-                </ul>
+                {_self.state.jogos.map( (el) => {
+                    return(
+                    <ul key={el}>
+                        {el.map(elm => {
+                            return (<li key={elm} className={`${ _verificarAcerto(elm, _self.state.numeros) }`}>{elm}</li>)
+                        })}
+                    </ul>)
+                })}
+                
                 <p>Sorteio</p>
                 <ul>
                     {_self.state.numeros.sort((a, b) => a > b).map(i => {
