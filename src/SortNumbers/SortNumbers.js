@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const _verificarAcerto = (i, numeros) => {
-    if( numeros.indexOf(parseInt(i)) !== -1 ){
+    if( numeros.indexOf(i) !== -1 ){
         return true
     }
     return false
@@ -57,8 +57,8 @@ export default class SortNumbers extends Component{
     }
     handleChange(propertyName, event) {
         const valores = this.state.valores;
-        valores[propertyName] = event.target.value;
-        this.setState({ propertyName: event.target.value });
+        valores[propertyName] = parseInt(event.target.value);
+        this.setState({ valores: valores });
     }
     render(props){
         const _self = this;
