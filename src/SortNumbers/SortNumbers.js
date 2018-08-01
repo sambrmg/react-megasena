@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const _verificarAcerto = (i, numeros) => {
-    if( numeros.indexOf(i) !== -1 ){
+    if( numeros.indexOf(parseInt(i)) !== -1 ){
         return true
     }
     return false
@@ -29,7 +29,7 @@ export default class SortNumbers extends Component{
         function getRandomArbitrary(min, max) {
             return parseInt(Math.random() * ((max+1) - min) + min);
         }
-
+        // @todo retornar valor sem precisar de 1000 ms
         var interval = setInterval(function(){
             let numRandom = getRandomArbitrary(1, 20);
             if( _self.state.numeros.indexOf( numRandom ) === -1 ){
