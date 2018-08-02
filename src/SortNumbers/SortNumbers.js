@@ -10,6 +10,7 @@ export default class SortNumbers extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            sorteioIniciado: false,
             valores: [],
             numeros: [],
             jogos: [ 
@@ -18,11 +19,15 @@ export default class SortNumbers extends Component{
                 [7,18,24,32,44,56] ]
         }
         // this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleClickRegistrar = this.handleClickRegistrar.bind(this);
         this.handleIniciarSorteio = this.handleIniciarSorteio.bind(this);
     }
     handleIniciarSorteio(){
+        if(this.state.sorteioIniciado) return;
+
         const _self = this;
+        _self.setState({sorteioIniciado: true});
+
         _self.state.numeros = [];
         var maxInterval = 6;
 
@@ -31,13 +36,15 @@ export default class SortNumbers extends Component{
         }
         // @todo retornar valor sem precisar de 1000 ms
         var interval = setInterval(function(){
-            let numRandom = getRandomArbitrary(1, 20);
+            let numRandom = getRandomArbitrary(1, 60);
             if( _self.state.numeros.indexOf( numRandom ) === -1 ){
                 _self.setState({
                     numeros: [..._self.state.numeros, numRandom]
                 });
                 if( maxInterval === 1 ){
-                    clearInterval(interval)
+                    clearInterval(interval);
+                    _self.setState({sorteioIniciado: false});
+
                 }else{
                     maxInterval--;
                 }
@@ -46,7 +53,9 @@ export default class SortNumbers extends Component{
         
     }
     
-    handleClick(){
+    handleClickRegistrar(){
+        if(this.state.sorteioIniciado) return;
+
         this.setState({jogos: [...this.state.jogos, [
             this.state.valores.p1,
             this.state.valores.p2,
@@ -65,15 +74,21 @@ export default class SortNumbers extends Component{
 
         return (
             <div className="megasena">
-                <div className="fm-inline">
-                    <input maxLength="2" onChange={this.handleChange.bind(this, 'p1')}/>
-                    <input maxLength="2" onChange={this.handleChange.bind(this, 'p2')}/>
-                    <input maxLength="2" onChange={this.handleChange.bind(this, 'p3')}/>
-                    <input maxLength="2" onChange={this.handleChange.bind(this, 'p4')}/>
-                    <input maxLength="2" onChange={this.handleChange.bind(this, 'p5')}/>
-                    <input maxLength="2" onChange={this.handleChange.bind(this, 'p6')}/>
-                    <button onClick={this.handleClick}>Registrar</button>
-                    <button onClick={this.handleIniciarSorteio}>Iniciar Sorteio</button>
+                <div className="fm-column">
+                    <div>
+                        <input maxLength="2" onChange={this.handleChange.bind(this, 'p1')}/>
+                        <input maxLength="2" onChange={this.handleChange.bind(this, 'p2')}/>
+                        <input maxLength="2" onChange={this.handleChange.bind(this, 'p3')}/>
+                        <input maxLength="2" onChange={this.handleChange.bind(this, 'p4')}/>
+                        <input maxLength="2" onChange={this.handleChange.bind(this, 'p5')}/>
+                        <input maxLength="2" onChange={this.handleChange.bind(this, 'p6')}/>
+                    </div>
+                    <div>
+                        <button onClick={this.handleClickRegistrar} className={this.state.sorteioIniciado ? 'disabled' : ''}>Registrar</button>
+                    </div>
+                    <div>
+                        <button onClick={this.handleIniciarSorteio} className={this.state.sorteioIniciado ? 'disabled' : ''}>Iniciar Sorteio</button>
+                    </div>
                 </div>
                 <p>Meus jogos</p>
                 {_self.state.jogos.map( (el) => {
